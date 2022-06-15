@@ -1,0 +1,13 @@
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  .wrapper {
+    display: flex;
+    flex-basis: 40%;
+    border-left: 3px solid #f9f9f9;
+    flex-direction: column;
+  }
+}

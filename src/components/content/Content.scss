@@ -1,0 +1,47 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 60%;
+  justify-content: center;
+  align-items: center;
+  .container-content {
+    display: flex;
+    flex-direction: column;
+
+    .main-title {
+      font-family: "Inter";
+      font-style: normal;
+      font-size: 72px;
+      margin: 0%;
+      line-height: 52px;
+      color: #202020;
+    }
+    .second-title {
+      width: 501px;
+      height: 52px;
+
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 34px;
+      line-height: 52px;
+      color: #aaaaaa;
+    }
+    .img-content {
+      width: 584px;
+      height: 422px;
+      left: 72px;
+      top: 244px;
+      border-radius: 10px;
+    }
+    .item-text {
+      width: 584px;
+      height: 196px;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 28px;
+    }
+  }
+}
