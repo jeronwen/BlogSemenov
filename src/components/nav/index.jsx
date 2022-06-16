@@ -31,7 +31,7 @@ export const Nav = () => {
         <div className="nav-text">МЕНЮ</div>
 
         <IconButton className="menu-btn">
-          <MenuOutlinedIcon></MenuOutlinedIcon>
+          <MenuOutlinedIcon fontSize="large"></MenuOutlinedIcon>
         </IconButton>
       </Box>
     </div>

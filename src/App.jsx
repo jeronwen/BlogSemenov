@@ -5,6 +5,7 @@ import { Content } from "./components/content";
 import { Item } from "./components/items";
 import { Header } from "./components/header";
 import { useSelector, useDispatch } from "react-redux";
+
 import { setItems } from "./redux/actions/items";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Content />
       <div className="wrapper">
         <Header></Header>
+
         {stateItems.map((data) => {
           return <Item data={data}></Item>;
         })}
