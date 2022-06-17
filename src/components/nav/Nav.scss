@@ -1,9 +1,12 @@
 .nav-bar {
   background: #13315e;
+  width: 100px;
 
   .menu {
-    width: 100px;
-    height: 100vh;
+    margin-top: auto;
+    padding-left: 12px;
+    bottom: 0;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
