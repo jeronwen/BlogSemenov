@@ -3,8 +3,13 @@ import Box from "@mui/material/Box";
 import { IconButton } from "@mui/material";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import "./Nav.scss";
+import { FullNav } from "./FullNav";
 
 export const Nav = () => {
+  const [active, setActive] = React.useState(false);
+  const handleOpen = () => {
+    setActive(!active);
+  };
   return (
     // <div className="menu-bar">
     //   <Box className="menu-box" sx={{ flexGrow: 0 }}>
@@ -26,13 +31,14 @@ export const Nav = () => {
     //     </AppBar>
     //   </Box>
     // </div>
-    <div className="nav-bar">
+    <div className={active ? "nav-bar-inactive" : "nav-bar-active"}>
       <Box className="menu">
         <div className="nav-text">МЕНЮ</div>
 
-        <IconButton className="menu-btn">
+        <IconButton onClick={handleOpen} className="menu-btn">
           <MenuOutlinedIcon fontSize="large"></MenuOutlinedIcon>
         </IconButton>
+        {/* <FullNav state={active} toggleDrawer={handleOpen}></FullNav> */}
       </Box>
     </div>
   );

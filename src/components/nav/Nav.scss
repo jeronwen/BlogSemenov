@@ -1,7 +1,37 @@
-.nav-bar {
+$widthNav: "width";
+.nav-bar-inactive {
   background: #13315e;
   width: 100px;
-
+  transform-origin: left center;
+  .menu {
+    margin-top: auto;
+    padding-left: 12px;
+    bottom: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    .nav-text {
+      padding-left: 40%;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 24px;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+      transform: rotate(-90deg);
+    }
+    .menu-btn {
+      height: 8%;
+      color: #ffffff;
+    }
+  }
+}
+.nav-bar-active {
+  background: #13315e;
+  width: 350px;
+  transform-origin: left center;
   .menu {
     margin-top: auto;
     padding-left: 12px;
