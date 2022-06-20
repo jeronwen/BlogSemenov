@@ -19,12 +19,6 @@ const initialState = [
     createdAt: "12 августа 2019 в 08:06",
     countView: 16,
   },
-  {
-    title: "Amet molestie tincidunt id nascetur sit purus turpis",
-    text: `Vel vulputate mauris enim habitant ornare. Ut in sit purus turpis ultrices suspendisse scelerisque quam lorem. Amet molestie nascetur...`,
-    createdAt: "12 августа 2019 в 08:06",
-    countView: 300,
-  },
 ];
 
 export const ItemsReducer = (state = initialState, action) => {
