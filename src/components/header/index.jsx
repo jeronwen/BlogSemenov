@@ -1,5 +1,6 @@
 import { IconButton } from "@mui/material";
 import { TransitionsModal } from "../login/";
+import { RegistrationModal } from "../registration/";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateIcon from "@mui/icons-material/Create";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -8,14 +9,20 @@ import React from "react";
 import "./Header.scss";
 
 export const Header = () => {
-  const [open, setOpen] = React.useState(false);
+  const [openLogin, setOpenLogin] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenLogin = () => {
+    setOpenLogin(!openLogin);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const [openReg, setOpenReg] = React.useState(false);
+
+  const handleOpenReg = () => {
+    setOpenReg(!openReg);
   };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   return (
     <div className="header">
@@ -25,17 +32,21 @@ export const Header = () => {
         <IconButton>
           <SearchIcon></SearchIcon>
         </IconButton>
-        <IconButton onClick={handleOpen}>
+        <IconButton onClick={handleOpenLogin}>
           <PersonIcon></PersonIcon>
         </IconButton>
         <TransitionsModal
-          open={open}
-          handleClose={handleClose}
+          open={openLogin}
+          handleClose={handleOpenLogin}
         ></TransitionsModal>
+        {/* <RegistrationModal
+          open={openReg}
+          handleOpen={handleOpenReg}
+        ></RegistrationModal> */}
         {/* <IconButton>
           <CreateIcon></CreateIcon>
-        </IconButton>
-        <IconButton>
+        </IconButton> */}
+        {/* <IconButton>
           <ExitToAppIcon></ExitToAppIcon>
         </IconButton> */}
       </div>

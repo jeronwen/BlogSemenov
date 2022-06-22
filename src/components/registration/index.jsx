@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const style = {
   display: "flex",
@@ -24,7 +26,16 @@ const style = {
   p: 4,
 };
 
-export const TransitionsModal = ({ open, handleClose }) => {
+export const RegistrationModal = ({ open, handleClose }) => {
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+
+    // const res = await axios.post(
+    //   "https://blog-api-semenov.herokuapp.com/auth/register"
+    // );
+    axios.post("https://blog-api-semenov.herokuapp.com/auth/register", data);
+  };
   return (
     <div className="modalMenu">
       <Modal
@@ -39,46 +50,55 @@ export const TransitionsModal = ({ open, handleClose }) => {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
-            <div className="header-modal">
-              <Typography
-                id="transition-modal-title"
-                variant="h6"
-                component="h2"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box sx={style}>
+              <div className="header-modal">
+                <Typography
+                  id="transition-modal-title"
+                  variant="h6"
+                  component="h2"
+                >
+                  Регистрация
+                </Typography>
+                <IconButton onClick={handleClose}>
+                  <ClearIcon></ClearIcon>
+                </IconButton>
+              </div>
+              <br />
+              <TextField
+                {...register("fullName")}
+                sx={{ borderRadius: "15px" }}
+                required
+                id="outlined-required"
+                label="Имя и фамилия"
+              />
+              <br />
+              <TextField
+                {...register("email")}
+                sx={{ borderRadius: "15px" }}
+                required
+                id="outlined-required"
+                label="Email"
+              />
+              <br />
+              <TextField
+                {...register("password")}
+                sx={{ borderRadius: "15px" }}
+                id="outlined-password-input"
+                label="Пароль"
+                type="password"
+                autoComplete="current-password"
+              />
+              <br />
+              <Button
+                type="submit"
+                sx={{ borderRadius: "12px" }}
+                variant="contained"
               >
-                Регистрация
-              </Typography>
-              <IconButton onClick={handleClose}>
-                <ClearIcon></ClearIcon>
-              </IconButton>
-            </div>
-            <br />
-            <TextField
-              sx={{ borderRadius: "15px" }}
-              required
-              id="outlined-required"
-              label="Имя и фамилия"
-            />
-            <br />
-            <TextField
-              sx={{ borderRadius: "15px" }}
-              required
-              id="outlined-required"
-              label="Email"
-            />
-            <br />
-            <TextField
-              sx={{ borderRadius: "15px" }}
-              id="outlined-password-input"
-              label="Пароль"
-              type="password"
-              autoComplete="current-password"
-            />
-            <br />
-            <Button sx={{ borderRadius: "12px" }} variant="contained">
-              Зарегистрироваться
-            </Button>
-          </Box>
+                Зарегистрироваться
+              </Button>
+            </Box>
+          </form>
         </Fade>
       </Modal>
     </div>
