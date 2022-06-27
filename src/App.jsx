@@ -10,10 +10,8 @@ import { setItems } from "./redux/actions/items";
 
 function App() {
   const dispatch = useDispatch();
-  const stateItems = useSelector((state) => state);
-  // React.useEffect(() => {
-  //   dispatch(setItems());
-  // }, []);
+  const stateItems = useSelector((state) => state.items);
+
   return (
     <div className="App">
       <Content />
