@@ -7,7 +7,11 @@ import "./Nav.scss";
 import ClearIcon from "@mui/icons-material/Clear";
 import { LoginNav } from "./LoginNav";
 import { NoLoginNav } from "./NoLoginNav";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Nav = () => {
-  return <NoLoginNav />;
+  const stateToken = useSelector((state) => state.globalSettings.statusLogin);
+  console.log(stateToken);
+  return <>{stateToken ? <LoginNav /> : <NoLoginNav />}</>;
+  // return <NoLoginNav></NoLoginNav>;
 };

@@ -28,13 +28,26 @@ const style = {
 
 export const RegistrationModal = ({ open, handleClose }) => {
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const [disabled, setDisabled] = React.useState(false);
+  // 'fullName': 'Vasya Pupkin',
+  // 'email': 'test@test.ru',
+  // 'password': 'Qwerty123'
+  const onSubmit = async (data) => {
+    setDisabled(true);
 
-    // const res = await axios.post(
-    //   "https://blog-api-semenov.herokuapp.com/auth/register"
-    // );
-    axios.post("https://blog-api-semenov.herokuapp.com/auth/register", data);
+    try {
+      let req = await axios.post(
+        "https://blog-api-semenov.herokuapp.com/auth/register",
+        JSON.stringify(data),
+        { headers: { "Content-Type": "application/json" } }
+      );
+      await console.log(req);
+      alert("Вы успешно зарегистрированы!");
+    } catch (error) {
+      alert("Произошла ошибка");
+      console.error(error.response.data);
+      setDisabled(false);
+    }
   };
   return (
     <div className="modalMenu">
@@ -94,6 +107,7 @@ export const RegistrationModal = ({ open, handleClose }) => {
                 type="submit"
                 sx={{ borderRadius: "12px" }}
                 variant="contained"
+                disabled={disabled}
               >
                 Зарегистрироваться
               </Button>

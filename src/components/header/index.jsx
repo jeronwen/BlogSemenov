@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material";
-import { TransitionsModal } from "../login/";
-import { RegistrationModal } from "../registration/";
+import { LoginModal } from "../auth/login/";
+import { RegistrationModal } from "../auth/registration";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateIcon from "@mui/icons-material/Create";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -35,10 +35,7 @@ export const Header = () => {
         <IconButton onClick={handleOpenLogin}>
           <PersonIcon></PersonIcon>
         </IconButton>
-        <TransitionsModal
-          open={openLogin}
-          handleClose={handleOpenLogin}
-        ></TransitionsModal>
+        <LoginModal open={openLogin} handleClose={handleOpenLogin}></LoginModal>
         {/* <RegistrationModal
           open={openReg}
           handleOpen={handleOpenReg}

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import "./Nav.scss";
 import ClearIcon from "@mui/icons-material/Clear";
-import { RegistrationModal } from "../registration/index";
+import { RegistrationModal } from "../auth/registration";
 
 export const NoLoginNav = () => {
   const [active, setActive] = React.useState(false);

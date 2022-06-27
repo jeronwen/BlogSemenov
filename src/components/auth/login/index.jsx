@@ -10,6 +10,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/actions/globalSettings";
 import axios from "axios";
 
 const style = {
@@ -26,21 +28,24 @@ const style = {
   p: 4,
 };
 
-export const TransitionsModal = ({ open, handleClose, handleOpen }) => {
-  // const [openReg, setOpenReg] = React.useState(false);
-
-  // const handleOpenReg = () => {
-  //   setOpenReg(!openReg);
-  // };
-
+export const LoginModal = ({ open, handleClose, handleOpen }) => {
+  const dispatch = useDispatch();
   const onLogin = async (data) => {
-    //console.log(data);
-
-    const res = await axios.post(
-      "https://blog-api-semenov.herokuapp.com/auth/login",
-      data
-    );
-    console.log(res.status);
+    try {
+      let req = await axios.post(
+        "https://blog-api-semenov.herokuapp.com/auth/login",
+        JSON.stringify(data),
+        { headers: { "Content-Type": "application/json" } }
+      );
+      if (req.statusText == "OK") {
+        let token = req.data.token;
+        localStorage.setItem("token", token);
+        dispatch(login());
+      }
+    } catch (error) {
+      await console.log(error);
+      alert("Неверный логин или пароль!");
+    }
   };
   const { register, handleSubmit } = useForm();
   return (
@@ -81,6 +86,7 @@ export const TransitionsModal = ({ open, handleClose, handleOpen }) => {
                 label="Email"
               />
               <br />
+              <br />
               <TextField
                 {...register("password")}
                 sx={{ borderRadius: "15px" }}
@@ -89,6 +95,7 @@ export const TransitionsModal = ({ open, handleClose, handleOpen }) => {
                 type="password"
                 autoComplete="current-password"
               />
+              <br />
               <br />
               <Button
                 type="submit"
