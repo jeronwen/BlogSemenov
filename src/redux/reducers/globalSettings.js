@@ -6,7 +6,7 @@ export const GlobalSettingsReducer = (state = initialState, action) => {
     case "LOGIN":
       return { ...state, statusLogin: true };
     case "LOGOUT":
-      return (state.statusLogin = false);
+      return { ...state, statusLogin: false };
     default:
       return state;
   }

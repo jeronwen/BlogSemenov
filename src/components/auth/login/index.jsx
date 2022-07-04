@@ -28,7 +28,7 @@ const style = {
   p: 4,
 };
 
-export const LoginModal = ({ open, handleClose, handleOpen }) => {
+export const LoginModal = ({ open, handleClose }) => {
   const dispatch = useDispatch();
   const onLogin = async (data) => {
     try {
@@ -37,13 +37,17 @@ export const LoginModal = ({ open, handleClose, handleOpen }) => {
         JSON.stringify(data),
         { headers: { "Content-Type": "application/json" } }
       );
-      if (req.statusText == "OK") {
+
+      if (req.statusText === "OK") {
         let token = req.data.token;
+        let id = req.data._id;
         localStorage.setItem("token", token);
+        localStorage.setItem("id", id);
         dispatch(login());
+        handleClose();
       }
-    } catch (error) {
-      await console.log(error);
+    } catch (err) {
+      console.log(err);
       alert("Неверный логин или пароль!");
     }
   };

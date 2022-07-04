@@ -8,7 +8,7 @@ import { Input } from "@mui/material";
 import { IconButton } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-export const CreatePost = () => {
+export const EditPost = () => {
   const { register, handleSubmit } = useForm();
   const [disabled, setDisabled] = React.useState(false);
   const [disabledUpload, setDisabledUpload] = React.useState(false);
