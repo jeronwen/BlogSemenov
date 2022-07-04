@@ -7,8 +7,6 @@ import { Post } from "../../pages/Post";
 import { CreatePost } from "../../pages/CreatePost";
 
 export const Content = () => {
-  const params = useParams();
-  console.log(params);
   return (
     <div className="content">
       <div className="container-content">
