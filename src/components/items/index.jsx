@@ -35,11 +35,11 @@ export const Item = ({ data }) => {
       </Card> */}
 
       <div className="item">
-        <Link to={"/post/"}>
+        <Link to={`/post/${data._id}`}>
           <h1>{data.title}</h1>{" "}
         </Link>
         <div>
-          <span>{data.text}</span>
+          <span>{data.description}</span>
         </div>
         <br />
         <br />
