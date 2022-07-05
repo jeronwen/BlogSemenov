@@ -12,7 +12,6 @@ function App() {
   const dispatch = useDispatch();
   const stateItems = useSelector((state) => state.items);
   useEffect(() => {
-    console.log("heyyy2");
     dispatch(fetchItems());
     if (localStorage.getItem("token")) {
       dispatch(login());
@@ -26,7 +25,7 @@ function App() {
         <Header></Header>
 
         {stateItems.map((data) => {
-          return <Item data={data}></Item>;
+          return <Item key={data._id} data={data}></Item>;
         })}
       </div>
       <Nav></Nav>

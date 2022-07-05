@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import React from "react";
+import { React } from "react";
+import { useDispatch } from "react-redux";
 import "./Items.scss";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,9 +9,7 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
 export const Item = ({ data }) => {
-  const handleClick = () => {
-    console.log("hey");
-  };
+  const dispatch = useDispatch();
   return (
     <div className="item-card">
       {/* <Card sx={{ minHeight: 225 }}>
@@ -36,7 +35,7 @@ export const Item = ({ data }) => {
 
       <div className="item">
         <Link to={`/post/${data._id}`}>
-          <h1>{data.title}</h1>{" "}
+          <h1>{data.title}</h1>
         </Link>
         <div>
           <span>{data.description}</span>
