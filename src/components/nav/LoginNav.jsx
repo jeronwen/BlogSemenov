@@ -4,11 +4,13 @@ import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/globalSettings";
+import { useSelector } from "react-redux";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import "./Nav.scss";
 import ClearIcon from "@mui/icons-material/Clear";
 
 export const LoginNav = () => {
+  const [id, setId] = React.useState("");
   const [active, setActive] = React.useState(false);
   const dispatch = useDispatch();
   const handleOpen = () => {
@@ -18,6 +20,12 @@ export const LoginNav = () => {
     localStorage.clear();
     dispatch(logout());
   };
+  React.useEffect(() => {
+    const userId = localStorage.getItem("id");
+    if (userId) {
+      setId(userId);
+    }
+  }, []);
 
   return (
     <div className={active ? "nav-bar-active" : "nav-bar-inactive"}>
@@ -34,7 +42,9 @@ export const LoginNav = () => {
                 </Link>
               </div>
               <div className="nav-item">
-                <h3>Мой профиль</h3>
+                <Link to={`/profile/${id}`}>
+                  <h3>Мой профиль</h3>
+                </Link>
               </div>
               <div className="nav-item">
                 <Link to={"/create-post"}>

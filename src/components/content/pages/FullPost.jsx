@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-export const Post = () => {
+export const FullPost = () => {
   let postId = useParams();
   const [post, setPost] = React.useState("");
   const getPost = async () => {
@@ -33,7 +33,7 @@ export const Post = () => {
   return (
     <div className="full-post">
       <div>
-        <img src="https://cs7.pikabu.ru/post_img/2019/01/30/9/1548860096115090477.jpg"></img>
+        {/* <img src="https://cs7.pikabu.ru/post_img/2019/01/30/9/1548860096115090477.jpg"></img> */}
         <h1>{post.title}</h1>
         <h3>{post.description}</h3>
 

@@ -1,13 +1,27 @@
 .App {
-  min-height: 100vh;
+  // min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: row;
   align-items: stretch;
-
-  .wrapper {
+  .container {
     display: flex;
-    flex-basis: 40%;
-    border-left: 3px solid #f9f9f9;
     flex-direction: column;
+    flex-basis: 100%;
+    height: 100%;
   }
+
+  // .items {
+  //   display: flex;
+  //   flex-basis: 40%;
+  //   border-left: 3px solid #f9f9f9;
+  //   flex-direction: column;
+  // }
+  // .items-hide {
+  //   display: none;
+  //   //display: flex;
+  //   flex-basis: 40%;
+  //   border-left: 3px solid #f9f9f9;
+  //   flex-direction: column;
+  // }
 }
