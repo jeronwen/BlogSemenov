@@ -6,12 +6,10 @@ import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { Comment } from "../comment";
-import { fetchItems } from "../../../redux/actions/items";
+
 import axios from "axios";
-import { useDispatch } from "react-redux";
 
 export const FullPost = () => {
-  const dispatch = useDispatch;
   let postId = useParams();
   let navigate = useNavigate();
   const [disableButton, setDisableButton] = React.useState(false);
@@ -20,7 +18,6 @@ export const FullPost = () => {
   const [commentText, setCommentText] = React.useState("");
   const [author, setAuthor] = React.useState("");
   useEffect(() => {
-    console.log("статья");
     getFullPost();
   }, [postId]);
 
@@ -57,7 +54,6 @@ export const FullPost = () => {
     let token = localStorage.getItem("token");
     setDisableButton(true);
     try {
-      // console.log(commentText + " " + postId.id);
       const resp = await axios.post(
         "https://blog-api-semenov.herokuapp.com/comments",
         {
@@ -100,25 +96,15 @@ export const FullPost = () => {
               },
             }
           );
-          // reqComments = await axios.delete(
-          //   `https://blog-api-semenov.herokuapp.com/comments/${id}`,
-          //   {
-          //     headers: {
-          //       Authorization: token,
-          //     },
-          //   }
-          // );
+
           navigate("/", { replace: true });
           alert("Статья успешно удалена!");
-          // dispatch(fetchItems());
           req = await axios.get(
             `https://blog-api-semenov.herokuapp.com/comments/post/${id}`
           );
           if (req.statusText === "OK") {
-            console.log("start delete");
             const arr = await Promise.all(
               req.data.map(async (comment) => {
-                console.log("start delete 2");
                 axios.delete(
                   `https://blog-api-semenov.herokuapp.com/comments/${comment._id}`,
                   {
@@ -129,13 +115,6 @@ export const FullPost = () => {
                 );
               })
             );
-
-            // await reqComments.map((comment) => {
-            //   console.log("start delete 2");
-            //   axios.delete(
-            //     `https://blog-api-semenov.herokuapp.com/comments/${comment._id}`
-            //   );
-            // });
           }
         } else {
           req = await axios.delete(

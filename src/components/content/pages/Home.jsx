@@ -1,4 +1,14 @@
+import { useParams } from "react-router-dom";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { fetchItems } from "../../../redux/actions/items";
+
 export const Home = () => {
+  let params = useParams();
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchItems());
+  }, [params]);
   return (
     <>
       <h1 className="main-title">Nikita Semenov</h1>
