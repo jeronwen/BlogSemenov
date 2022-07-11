@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import { React } from "react";
 import { useDispatch } from "react-redux";
-import "./Items.scss";
+import "./Item.scss";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
-export const Item = ({ data }) => {
-  const dispatch = useDispatch();
+export const Item = ({ data, hidden }) => {
   return (
     <div className="item-card">
       {/* <Card sx={{ minHeight: 225 }}>

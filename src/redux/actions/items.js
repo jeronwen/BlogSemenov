@@ -13,15 +13,15 @@ export const fetchItems = () => async (dispatch) => {
   }
 };
 
-// export const fetchItem = () => async (dispatch, id) => {
-//   const resp = await fetch(
-//     `https://blog-api-semenov.herokuapp.com/posts/${id}`
-//   );
-//   if (resp.ok) {
-//     const data = await resp.json();
-//     dispatch({
-//       type: "SET_ITEMS",
-//       payload: data,
-//     });
-//   }
-// };
+export const fetchUsersItems = () => async (dispatch) => {
+  const resp = await fetch(
+    `https://blog-api-semenov.herokuapp.com/posts?userId=${"62b9b7dd1458063d97e24ee5"}&limit=20000`
+  );
+  if (resp.ok) {
+    const data = await resp.json();
+    dispatch({
+      type: "SET_ITEMS",
+      payload: data,
+    });
+  }
+};
