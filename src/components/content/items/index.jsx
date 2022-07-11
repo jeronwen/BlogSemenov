@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { React } from "react";
 import { useDispatch } from "react-redux";
-import "./Items.scss";
+import "./Item.scss";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";

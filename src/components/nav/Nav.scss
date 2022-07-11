@@ -3,14 +3,14 @@
   margin-left: auto;
 
   width: 100px;
+
   transform-origin: left center;
   .menu {
-    margin-top: auto;
-
     bottom: 0;
 
     position: fixed;
     display: flex;
+
     flex-direction: column;
     justify-content: flex-end;
     .nav-bottom {

@@ -13,14 +13,19 @@ import { Routes, Route, Switch, useParams } from "react-router-dom";
 function App() {
   const dispatch = useDispatch();
   // const id = useParams();
-  const stateItems = useSelector((state) => state.items);
-  useEffect(() => {
+  // const stateItems = useSelector((state) => state.items);
+  // useEffect(() => {
+  //   dispatch(fetchItems());
+  //   if (localStorage.getItem("token")) {
+  //     dispatch(login());
+  //   }
+  // }, []);
+  React.useEffect(() => {
     dispatch(fetchItems());
     if (localStorage.getItem("token")) {
       dispatch(login());
     }
   }, []);
-
   return (
     <div className="App">
       {/* <Routes>
