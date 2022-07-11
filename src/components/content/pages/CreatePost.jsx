@@ -5,10 +5,13 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Input } from "@mui/material";
-import { IconButton } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useDispatch } from "react-redux";
+import { fetchItems } from "../../../redux/actions/items";
+// import { IconButton } from "@mui/material";
+// import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 export const CreatePost = () => {
+  const dispatch = useDispatch(fetchItems);
   const { register, handleSubmit } = useForm();
   const [disabled, setDisabled] = React.useState(false);
   const [disabledUpload, setDisabledUpload] = React.useState(false);
@@ -53,8 +56,10 @@ export const CreatePost = () => {
         }
       );
       // if (reqPost.statusText === "OK") {
-      //   alert("Статья успешно опубликована!");
+      alert("Статья успешно опубликована!");
+      dispatch(fetchItems());
       setDisabled(false);
+      // }
     } catch (err) {
       alert("Произошла ошибка");
 

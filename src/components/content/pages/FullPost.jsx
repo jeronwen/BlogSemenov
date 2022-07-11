@@ -4,53 +4,58 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Comment } from "../comment";
+import { fetchItems } from "../../../redux/actions/items";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 export const FullPost = () => {
+  const dispatch = useDispatch;
   let postId = useParams();
-
+  let navigate = useNavigate();
+  const [disableButton, setDisableButton] = React.useState(false);
   const [post, setPost] = React.useState("");
   const [commentsData, setCommentsData] = React.useState([]);
   const [commentText, setCommentText] = React.useState("");
   const [author, setAuthor] = React.useState("");
   useEffect(() => {
+    console.log("статья");
     getFullPost();
   }, [postId]);
+
+  const getComments = async () => {
+    let reqComments = `https://blog-api-semenov.herokuapp.com/comments/post/${postId.id}`;
+    try {
+      let respComments = await axios.get(reqComments);
+      if (respComments.statusText === "OK") {
+        setCommentsData(respComments.data);
+      }
+    } catch (err) {
+      alert("Произошла ошибка при загрузке комментариев");
+      console.log(err);
+    }
+  };
+
   const getFullPost = async () => {
     try {
       let reqPost = `https://blog-api-semenov.herokuapp.com/posts/${postId.id}`;
-      let reqComments = `https://blog-api-semenov.herokuapp.com/comments/post/${postId.id}`;
-      // let resps = await axios.all([reqPost, reqComments]).then(
-      //   axios.spread((...responses) => {
-      //     reqPost = responses[0];
-      //     reqComments = responses[1];
-      //   })
-      // );
 
       let respPost = await axios.get(reqPost);
-      let respComments = await axios.get(reqComments);
 
-      if ((respPost.statusText === "OK") & (respComments.statusText === "OK")) {
+      getComments();
+      if (respPost.statusText === "OK") {
         setPost(respPost.data);
-        setCommentsData(respComments.data);
+
         setAuthor(respPost.data.user._id);
       }
     } catch (err) {
       console.log(err);
     }
-
-    // if (resp.statusText === "OK") {
-    //   setPost(resp.data);
-    //   setAuthor(resp.data.user._id);
-    // } else {
-    //   console.log("Сервер не отвечает!");
-    //   setPost("");
-    // }
   };
   const sendComment = async () => {
     let token = localStorage.getItem("token");
+    setDisableButton(true);
     try {
       // console.log(commentText + " " + postId.id);
       const resp = await axios.post(
@@ -66,17 +71,22 @@ export const FullPost = () => {
         }
       );
       if (resp.statusText === "Created") {
+        getComments();
+        setDisableButton(false);
         setCommentText("");
-        getFullPost();
       }
     } catch (err) {
       alert("Сервер недоступен!");
+      setDisableButton(false);
       console.log(err);
     }
   };
 
   const handleDelete = async (type, id) => {
-    let result = window.confirm("Удалить статью?");
+    let result = window.confirm(
+      type === "post" ? "Удалить статью?" : "Удалить комментарий?"
+    );
+
     if (result) {
       let req = "https://blog-api-semenov.herokuapp.com/comments";
       let token = localStorage.getItem("token");
@@ -90,6 +100,43 @@ export const FullPost = () => {
               },
             }
           );
+          // reqComments = await axios.delete(
+          //   `https://blog-api-semenov.herokuapp.com/comments/${id}`,
+          //   {
+          //     headers: {
+          //       Authorization: token,
+          //     },
+          //   }
+          // );
+          navigate("/", { replace: true });
+          alert("Статья успешно удалена!");
+          // dispatch(fetchItems());
+          req = await axios.get(
+            `https://blog-api-semenov.herokuapp.com/comments/post/${id}`
+          );
+          if (req.statusText === "OK") {
+            console.log("start delete");
+            const arr = await Promise.all(
+              req.data.map(async (comment) => {
+                console.log("start delete 2");
+                axios.delete(
+                  `https://blog-api-semenov.herokuapp.com/comments/${comment._id}`,
+                  {
+                    headers: {
+                      Authorization: token,
+                    },
+                  }
+                );
+              })
+            );
+
+            // await reqComments.map((comment) => {
+            //   console.log("start delete 2");
+            //   axios.delete(
+            //     `https://blog-api-semenov.herokuapp.com/comments/${comment._id}`
+            //   );
+            // });
+          }
         } else {
           req = await axios.delete(
             `https://blog-api-semenov.herokuapp.com/comments/${id}`,
@@ -99,6 +146,7 @@ export const FullPost = () => {
               },
             }
           );
+          getComments();
         }
       } catch (err) {
         console.log(err);
@@ -123,12 +171,13 @@ export const FullPost = () => {
       {author === localStorage.getItem("id") ? (
         <div>
           <Link to={`/post/edit/${postId.id}`}>
-            <Button variant="contained">
+            <Button disabled={disableButton} variant="contained">
               <ModeEditIcon></ModeEditIcon>
               Редактировать статью
             </Button>
           </Link>
           <Button
+            disabled={disableButton}
             onClick={() => handleDelete("post", postId.id)}
             variant="contained"
           >
@@ -143,7 +192,13 @@ export const FullPost = () => {
         <h2>Комментарии</h2>
         {commentsData.length
           ? commentsData.map((data) => {
-              return <Comment key={data._id} data={data} />;
+              return (
+                <Comment
+                  key={data._id}
+                  data={data}
+                  handleDelete={handleDelete}
+                />
+              );
             })
           : "Напиши комментарий! Будьте первыми :)"}
 
@@ -164,6 +219,7 @@ export const FullPost = () => {
           />
           <br />
           <Button
+            disabled={disableButton}
             onClick={() => sendComment()}
             className="btn-send"
             variant="contained"
