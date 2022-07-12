@@ -5,10 +5,15 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Input } from "@mui/material";
-import { IconButton } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchItems } from "../../../redux/actions/items";
+// import { IconButton } from "@mui/material";
+// import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 export const CreatePost = () => {
+  let navigate = useNavigate();
+  const dispatch = useDispatch(fetchItems);
   const { register, handleSubmit } = useForm();
   const [disabled, setDisabled] = React.useState(false);
   const [disabledUpload, setDisabledUpload] = React.useState(false);
@@ -53,8 +58,12 @@ export const CreatePost = () => {
         }
       );
       // if (reqPost.statusText === "OK") {
-      //   alert("Статья успешно опубликована!");
       setDisabled(false);
+      alert("Статья успешно опубликована!");
+      navigate(`/post/${reqPost._id}`);
+      dispatch(fetchItems());
+
+      // }
     } catch (err) {
       alert("Произошла ошибка");
 
