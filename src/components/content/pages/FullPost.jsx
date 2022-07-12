@@ -6,10 +6,12 @@ import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { Comment } from "../comment";
-
+import { useDispatch } from "react-redux";
+import { fetchItems } from "../../../redux/actions/items";
 import axios from "axios";
 
 export const FullPost = () => {
+  const dispatch = useDispatch();
   let postId = useParams();
   let navigate = useNavigate();
   const [disableButton, setDisableButton] = React.useState(false);
@@ -96,9 +98,10 @@ export const FullPost = () => {
               },
             }
           );
-
+          dispatch(fetchItems());
           navigate("/", { replace: true });
           alert("Статья успешно удалена!");
+
           req = await axios.get(
             `https://blog-api-semenov.herokuapp.com/comments/post/${id}`
           );

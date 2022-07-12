@@ -1,9 +1,8 @@
 .content {
   display: flex;
   flex-direction: row;
-  flex-basis: 60%;
   align-items: stretch;
-  height: 100%;
+  height: auto;
   a {
     text-decoration: none;
     color: inherit;
@@ -18,10 +17,17 @@
     font-size: 16px;
     line-height: 28px;
   }
+  .items {
+    height: auto;
 
+    .items-pagination {
+      position: absolute;
+      margin-bottom: 5px;
+      bottom: 0;
+    }
+  }
   .items-hide {
     display: none;
-    //display: flex;
   }
   .container-content {
     display: flex;

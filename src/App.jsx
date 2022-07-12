@@ -26,6 +26,12 @@ function App() {
       dispatch(login());
     }
   }, []);
+  const stateActiveItems = useSelector(
+    (state) => state.globalSettings.activeItems
+  );
+  const stateTotalItems = useSelector((state) => state.items.total);
+  const stateItems = useSelector((state) => state.items.items);
+
   return (
     <div className="App">
       {/* <Routes>
@@ -33,7 +39,11 @@ function App() {
         </Routes> */}
       <div className="container">
         <Header></Header>
-        <Content />
+        <Content
+          items={stateItems}
+          TotalItems={stateTotalItems}
+          ActiveItems={stateActiveItems}
+        />
       </div>
 
       {/* <div className="items">
