@@ -1,5 +1,7 @@
 import { IconButton } from "@mui/material";
 import { LoginModal } from "../auth/login/";
+import { fetchFindItems } from "../../redux/actions/items.js";
+import { Input } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/globalSettings";
 import { Link } from "react-router-dom";
@@ -20,9 +22,17 @@ export const Header = () => {
     setOpenLogin(!openLogin);
   };
   const [openReg, setOpenReg] = React.useState(false);
+  const [search, setSearch] = React.useState("");
   const handleLogout = () => {
     localStorage.clear();
     dispatch(logout());
+  };
+  const handleFindItems = () => {
+    if (search !== "") {
+      dispatch(fetchFindItems(search));
+    } else {
+      alert("Введите запрос в поле!");
+    }
   };
 
   return (
@@ -30,7 +40,13 @@ export const Header = () => {
       <h1>SEMENOV BLOG</h1>
 
       <div className="group-btn">
-        <IconButton>
+        <Input
+          className="input-search"
+          placeholder={"Введите запрос..."}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        ></Input>
+        <IconButton onClick={() => handleFindItems()}>
           <SearchIcon></SearchIcon>
         </IconButton>
         {login ? (

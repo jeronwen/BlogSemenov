@@ -4,10 +4,7 @@ import { useForm } from "react-hook-form";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Input } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useDispatch } from "react-redux";
 import { fetchItems } from "../../../redux/actions/items";
 
@@ -18,59 +15,58 @@ export const EditPost = () => {
     getPost();
   }, []);
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
-  const [disabledEdit, setDisabledEdit] = React.useState(false);
-  const [disabledUpload, setDisabledUpload] = React.useState(false);
-  const [file, setFile] = React.useState("");
   const [dataPost, setDataPost] = React.useState({
     title: "",
     description: "",
     text: "",
   });
+
+  const [disabledEdit, setDisabledEdit] = React.useState(false);
+  const [disabledUpload, setDisabledUpload] = React.useState(false);
+  // const [file, setFile] = React.useState("");
+  const { register, handleSubmit, setValue } = useForm();
   const getPost = async () => {
     try {
       const resp = await axios.get(
         `https://blog-api-semenov.herokuapp.com/posts/${postId.id}`
       );
       if (resp.statusText === "OK") {
-        setDataPost({
-          ...dataPost,
-          title: resp.data.title,
-          description: resp.data.description,
-          text: resp.data.text,
-        });
+        setValue("title", resp.data.title);
+        setValue("description", resp.data.description);
+        setValue("text", resp.data.text);
       }
     } catch (err) {
       console.log(err);
     }
   };
-  const editPost = (event) => {
-    setDisabledEdit(false);
-    setDataPost({ [event.target.name]: event.target.value });
-  };
-  const uploadFile = async () => {
-    try {
-      setDisabledUpload(true);
-      const img = file[0];
-      const formData = new FormData();
-      formData.append("file", img);
 
-      const res = await axios.post(
-        "https://blog-api-semenov.herokuapp.com/posts/upload",
-        formData,
-        { headers: { "Content-type": "multipart/form-data" } }
-      );
-      if (res.statusText === "OK") {
-        alert("Изображение загрузилось успешно!");
-        setDisabledEdit(false);
-        console.log(res.data);
-      }
-    } catch (err) {
-      console.log(err);
-      setDisabledUpload(false);
-      alert("Изображение не загрузилось!");
-    }
-  };
+  // const editPost = (event) => {
+  //   setDisabledEdit(false);
+  //   setDataPost({ [event.target.name]: event.target.value });
+  // };
+  // const uploadFile = async () => {
+  //   try {
+  //     setDisabledUpload(true);
+  //     const img = file[0];
+  //     const formData = new FormData();
+  //     formData.append("file", img);
+
+  //     const res = await axios.post(
+  //       "https://blog-api-semenov.herokuapp.com/posts/upload",
+  //       formData,
+  //       { headers: { "Content-type": "multipart/form-data" } }
+  //     );
+  //     if (res.statusText === "OK") {
+  //       alert("Изображение загрузилось успешно!");
+  //       setDisabledEdit(false);
+  //       console.log(res.data);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setDisabledUpload(false);
+  //     alert("Изображение не загрузилось!");
+  //   }
+  // };
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
     setDisabledEdit(true);
@@ -89,11 +85,10 @@ export const EditPost = () => {
           },
         }
       );
-      // if (reqPost.statusText === "OK") {
+
       setDisabledEdit(false);
       await dispatch(fetchItems());
       alert("Статья изменена! :)");
-      // }
     } catch (err) {
       console.log(err);
       alert("Произошла ошибка");
@@ -112,8 +107,7 @@ export const EditPost = () => {
             multiline
             maxRows={4}
             variant="standard"
-            onChange={(e) => editPost(e)}
-            value={dataPost.title}
+            onChange={() => setDisabledEdit(false)}
           />
         </div>
         <br />
@@ -124,14 +118,13 @@ export const EditPost = () => {
             {...register("description")}
             maxRows={4}
             style={{ width: 500, height: 100 }}
-            onChange={(e) => editPost(e)}
-            value={dataPost.description}
+            onChange={() => setDisabledEdit(false)}
           />
         </div>
         <br />
-        <h3>Изображение</h3>
+        {/* <h3>Изображение</h3>
         <div className="img">
-          {/* <Input></Input> */}
+          <Input></Input> 
           <Input
             onChange={() => {
               setFile();
@@ -141,9 +134,9 @@ export const EditPost = () => {
             type="file"
           ></Input>
 
-          {/* <IconButton type="file" className="chooseFile" variant="contained">
+       <IconButton type="file" className="chooseFile" variant="contained">
             <AttachFileIcon></AttachFileIcon>
-          </IconButton> */}
+          </IconButton> 
           <Button
             onClick={() => uploadFile()}
             variant="contained"
@@ -152,15 +145,14 @@ export const EditPost = () => {
             Загрузить
           </Button>
         </div>
-        <br />
+        <br /> */}
         <h3>Полное описание</h3>
         <div className="full-desc">
           <TextareaAutosize
             {...register("text")}
             maxRows={4}
             style={{ width: 500, height: 100 }}
-            onChange={(e) => editPost(e)}
-            value={dataPost.text}
+            onChange={() => setDisabledEdit(false)}
           />
         </div>
         <br />

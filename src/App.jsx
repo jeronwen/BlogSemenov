@@ -6,7 +6,7 @@ import { Item } from "./components/content/items";
 import { Header } from "./components/header";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "./redux/actions/globalSettings";
-import { setItems, fetchItems } from "./redux/actions/items.js";
+import { fetchItems, fetchUsersItems } from "./redux/actions/items.js";
 import { Profile } from "./components/content/pages/Profile";
 import { Routes, Route, Switch, useParams } from "react-router-dom";
 
