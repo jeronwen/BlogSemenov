@@ -18,6 +18,7 @@ export const FullPost = () => {
   const [post, setPost] = React.useState("");
   const [commentsData, setCommentsData] = React.useState([]);
   const [commentText, setCommentText] = React.useState("");
+  const [imgUrl, setImgUrl] = React.useState("#");
   const [author, setAuthor] = React.useState("");
   useEffect(() => {
     getFullPost();
@@ -35,18 +36,46 @@ export const FullPost = () => {
       console.log(err);
     }
   };
+  // const getImgUrl = (post) => {
+  //   let mask = "https://blog-api-semenov.herokuapp.com/uploads";
+  //   let numUrl = text.indexOf(mask);
 
+  //   if ((numUrl) => 0) {
+  //     let url = text.substring(numUrl, text.length);
+  //     setImgUrl(url);
+  //     setPost({ ...post, text: text.substring(0, url) });
+  //   }
+  // };
   const getFullPost = async () => {
     try {
+      let mask = "https://blog-api-semenov.herokuapp.com/uploads";
       let reqPost = `https://blog-api-semenov.herokuapp.com/posts/${postId.id}`;
 
       let respPost = await axios.get(reqPost);
 
       getComments();
       if (respPost.statusText === "OK") {
-        setPost(respPost.data);
+        // getImgUrl(respPost.data)
+        let objectPost = respPost.data;
+        let numUrl = objectPost.text.indexOf(mask);
 
-        setAuthor(respPost.data.user._id);
+        if (numUrl !== -1) {
+          let url = objectPost.text.substring(numUrl, objectPost.text.length);
+          console.log(url);
+          setImgUrl(url);
+
+          objectPost = {
+            ...objectPost,
+            text: objectPost.text.substring(0, numUrl),
+          };
+          setPost(objectPost);
+          // setPost({ ...post, text: text.substring(0, url) });
+        } else {
+          setImgUrl("#");
+          setPost(objectPost);
+
+          setAuthor(objectPost.user._id);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -140,7 +169,7 @@ export const FullPost = () => {
   return (
     <div className="full-post">
       <div>
-        <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1544&q=80"></img>
+        <img alt="" src={imgUrl}></img>
 
         <h1>{post.title}</h1>
         <h3>{post.description}</h3>
