@@ -15,6 +15,7 @@ export const CreatePost = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch(fetchItems);
   const { register, handleSubmit } = useForm();
+  const [imgUrl, setImgURl] = React.useState("");
   const [disabled, setDisabled] = React.useState(false);
   const [disabledUpload, setDisabledUpload] = React.useState(false);
   const [file, setFile] = React.useState("");
@@ -33,6 +34,8 @@ export const CreatePost = () => {
       if (res.statusText === "OK") {
         alert("Изображение загрузилось успешно!");
         console.log(res.data);
+        setImgURl(`https://blog-api-semenov.herokuapp.com${res.data.url}`);
+        setDisabledUpload(false);
       }
     } catch (err) {
       console.log(err);
@@ -49,7 +52,7 @@ export const CreatePost = () => {
         {
           title: data.title,
           description: data.description,
-          text: data.text,
+          text: `${data.text} ${imgUrl}`,
         },
         {
           headers: {
@@ -60,8 +63,9 @@ export const CreatePost = () => {
       // if (reqPost.statusText === "OK") {
       setDisabled(false);
       alert("Статья успешно опубликована!");
-      navigate(`/post/${reqPost._id}`);
-      dispatch(fetchItems());
+
+      await dispatch(fetchItems());
+      navigate(`/`);
 
       // }
     } catch (err) {

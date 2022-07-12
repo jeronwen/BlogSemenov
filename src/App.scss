@@ -1,7 +1,5 @@
 .App {
-  //
   min-height: 100vh;
-  //height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -9,21 +7,6 @@
   .container {
     display: flex;
     flex-direction: column;
-    flex-basis: 100%;
     flex-grow: 1;
   }
-
-  // .items {
-  //   display: flex;
-  //   flex-basis: 40%;
-  //   border-left: 3px solid #f9f9f9;
-  //   flex-direction: column;
-  // }
-  // .items-hide {
-  //   display: none;
-  //   //display: flex;
-  //   flex-basis: 40%;
-  //   border-left: 3px solid #f9f9f9;
-  //   flex-direction: column;
-  // }
 }

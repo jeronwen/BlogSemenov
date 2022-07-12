@@ -8,7 +8,20 @@ export const fetchItems = () => async (dispatch) => {
     const data = await resp.json();
     dispatch({
       type: "SET_ITEMS",
-      payload: data.items,
+      payload: data,
+    });
+  }
+};
+export const fetchPageItems = (page) => async (dispatch) => {
+  const resp = await fetch(
+    `https://blog-api-semenov.herokuapp.com/posts?page=${page}`
+  );
+  if (resp.ok) {
+    const data = await resp.json();
+
+    dispatch({
+      type: "SET_ITEMS",
+      payload: data,
     });
   }
 };
