@@ -8,6 +8,8 @@ import { Input } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useDispatch } from "react-redux";
+import { fetchItems } from "../../../redux/actions/items";
 
 export const EditPost = () => {
   let postId = useParams();
@@ -15,6 +17,7 @@ export const EditPost = () => {
     setDisabledEdit(true);
     getPost();
   }, []);
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [disabledEdit, setDisabledEdit] = React.useState(false);
   const [disabledUpload, setDisabledUpload] = React.useState(false);
@@ -71,7 +74,7 @@ export const EditPost = () => {
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
     setDisabledEdit(true);
-    console.log(data);
+
     try {
       const reqPost = await axios.patch(
         `https://blog-api-semenov.herokuapp.com/posts/${postId.id}`,
@@ -86,10 +89,11 @@ export const EditPost = () => {
           },
         }
       );
-      if (reqPost.statusText === "OK") {
-        setDisabledEdit(false);
-        alert("Статья изменена! :)");
-      }
+      // if (reqPost.statusText === "OK") {
+      setDisabledEdit(false);
+      await dispatch(fetchItems());
+      alert("Статья изменена! :)");
+      // }
     } catch (err) {
       console.log(err);
       alert("Произошла ошибка");
