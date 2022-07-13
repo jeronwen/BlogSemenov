@@ -10,6 +10,10 @@ import "./Nav.scss";
 import ClearIcon from "@mui/icons-material/Clear";
 
 export const LoginNav = () => {
+  const stateProfileName = useSelector(
+    (state) => state.globalSettings.fullName
+  );
+
   const [id, setId] = React.useState("");
   const [active, setActive] = React.useState(false);
   const dispatch = useDispatch();
@@ -33,7 +37,7 @@ export const LoginNav = () => {
         {active ? (
           <div className="container">
             <div className="nav-header">
-              <h2>Имя Профиля</h2>
+              <h2>{stateProfileName}</h2>
             </div>
             <div className="nav-body">
               <div className="nav-item">

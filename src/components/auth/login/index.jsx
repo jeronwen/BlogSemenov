@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { login } from "../../../redux/actions/globalSettings";
+import { login, fetchProfileInfo } from "../../../redux/actions/globalSettings";
 import axios from "axios";
 
 const style = {
@@ -43,6 +43,7 @@ export const LoginModal = ({ open, handleClose }) => {
         let id = req.data._id;
         localStorage.setItem("token", token);
         localStorage.setItem("id", id);
+        dispatch(fetchProfileInfo(id));
         dispatch(login());
         handleClose();
       }

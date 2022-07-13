@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export const Nav = () => {
   const stateToken = useSelector((state) => state.globalSettings.statusLogin);
+
   return <>{stateToken ? <LoginNav /> : <NoLoginNav />}</>;
   // return <NoLoginNav></NoLoginNav>;
 };

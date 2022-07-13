@@ -5,12 +5,19 @@ import { Item } from "../items";
 import {
   deactivateItems,
   activateItems,
+  fetchProfileInfo,
 } from "../../../redux/actions/globalSettings";
 import { fetchUsersItems, fetchItems } from "../../../redux/actions/items";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 export const Profile = ({ setActiveItems }) => {
+  const stateProfileName = useSelector(
+    (state) => state.globalSettings.fullName
+  );
+  const stateProfileCreatedAt = useSelector(
+    (state) => state.globalSettings.createdAt
+  );
   // let location = useLocation();
   // console.log(location);
   let userId = useParams();
@@ -32,6 +39,7 @@ export const Profile = ({ setActiveItems }) => {
   };
   useEffect(() => {
     dispatch(deactivateItems());
+
     getProfilePosts();
 
     return () => {
@@ -42,8 +50,8 @@ export const Profile = ({ setActiveItems }) => {
   return (
     <div className="profile">
       <div className="info">
-        <h1>Имя профиля</h1>
-        <h3>дата регистрации: 00 00 00 </h3>
+        <h1>{stateProfileName}</h1>
+        <h3>дата регистрации: {stateProfileCreatedAt} </h3>
       </div>
       <div className="items">
         {userItems.map((data) => {

@@ -2,13 +2,10 @@ import React, { useEffect } from "react";
 import "./App.scss";
 import { Nav } from "./components/nav";
 import { Content } from "./components/content";
-import { Item } from "./components/content/items";
 import { Header } from "./components/header";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "./redux/actions/globalSettings";
-import { setItems, fetchItems } from "./redux/actions/items.js";
-import { Profile } from "./components/content/pages/Profile";
-import { Routes, Route, Switch, useParams } from "react-router-dom";
+import { login, fetchProfileInfo } from "./redux/actions/globalSettings";
+import { fetchItems, fetchUsersItems } from "./redux/actions/items.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +20,7 @@ function App() {
   React.useEffect(() => {
     dispatch(fetchItems());
     if (localStorage.getItem("token")) {
+      dispatch(fetchProfileInfo(localStorage.getItem("id")));
       dispatch(login());
     }
   }, []);
