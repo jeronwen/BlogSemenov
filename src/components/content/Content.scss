@@ -69,6 +69,11 @@
     margin-left: 20px;
     justify-content: center;
     align-items: center;
+
+    .progress-fullpost {
+      position: absolute;
+      top: 45vh;
+    }
     img {
       margin-left: 200px;
       height: 452px;

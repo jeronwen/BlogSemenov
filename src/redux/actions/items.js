@@ -2,6 +2,11 @@ export const setItems = () => ({
   type: "SET_ITEMS",
 });
 
+export const getFullPost = (idPost) => ({
+  type: "GET_ID_POST",
+  payload: idPost,
+});
+
 export const fetchItems = () => async (dispatch) => {
   const resp = await fetch("https://blog-api-semenov.herokuapp.com/posts");
   if (resp.ok) {

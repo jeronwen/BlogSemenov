@@ -3,15 +3,18 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { Comment } from "../comment";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchItems } from "../../../redux/actions/items";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
 export const FullPost = () => {
+  const stateToken = useSelector((state) => state.globalSettings.statusLogin);
   const dispatch = useDispatch();
+  let location = useLocation();
   let postId = useParams();
   let navigate = useNavigate();
   const [disableButton, setDisableButton] = React.useState(false);
@@ -20,9 +23,10 @@ export const FullPost = () => {
   const [commentText, setCommentText] = React.useState("");
   const [imgUrl, setImgUrl] = React.useState("#");
   const [author, setAuthor] = React.useState("");
+  const [isLoaded, setIsLoaded] = React.useState(false);
   useEffect(() => {
     getFullPost();
-  }, [postId]);
+  }, [location]);
 
   const getComments = async () => {
     let reqComments = `https://blog-api-semenov.herokuapp.com/comments/post/${postId.id}`;
@@ -47,6 +51,7 @@ export const FullPost = () => {
   //   }
   // };
   const getFullPost = async () => {
+    setIsLoaded(false);
     try {
       let mask = "https://blog-api-semenov.herokuapp.com/uploads";
       let reqPost = `https://blog-api-semenov.herokuapp.com/posts/${postId.id}`;
@@ -69,12 +74,14 @@ export const FullPost = () => {
             text: objectPost.text.substring(0, numUrl),
           };
           setPost(objectPost);
+          setIsLoaded(true);
           // setPost({ ...post, text: text.substring(0, url) });
         } else {
           setImgUrl("#");
           setPost(objectPost);
 
           setAuthor(objectPost.user._id);
+          setIsLoaded(true);
         }
       }
     } catch (err) {
@@ -168,77 +175,90 @@ export const FullPost = () => {
 
   return (
     <div className="full-post">
-      <div>
-        <img alt="" src={imgUrl}></img>
+      {isLoaded ? (
+        <>
+          <div>
+            <img alt="" src={imgUrl}></img>
 
-        <h1>{post.title}</h1>
-        <h3>{post.description}</h3>
+            <h1>{post.title}</h1>
+            <h3>{post.description}</h3>
 
-        <br></br>
-      </div>
+            <br></br>
+          </div>
 
-      <span>{post.text}</span>
-      <br></br>
-      {author === localStorage.getItem("id") ? (
-        <div>
-          <Link to={`/post/edit/${postId.id}`}>
-            <Button disabled={disableButton} variant="contained">
-              <ModeEditIcon></ModeEditIcon>
-              Редактировать статью
-            </Button>
-          </Link>
-          <Button
-            disabled={disableButton}
-            onClick={() => handleDelete("post", postId.id)}
-            variant="contained"
-          >
-            <DeleteOutlineIcon></DeleteOutlineIcon>
-            Удалить статью
-          </Button>
-        </div>
-      ) : (
-        ""
-      )}
-      <div className="comments">
-        <h2>Комментарии</h2>
-        {commentsData.length
-          ? commentsData.map((data) => {
-              return (
-                <Comment
-                  key={data._id}
-                  data={data}
-                  handleDelete={handleDelete}
+          <span>{post.text}</span>
+          <br></br>
+          {author === localStorage.getItem("id") ? (
+            <div>
+              <Link to={`/post/edit/${postId.id}`}>
+                <Button disabled={disableButton} variant="contained">
+                  <ModeEditIcon></ModeEditIcon>
+                  Редактировать статью
+                </Button>
+              </Link>
+              <Button
+                disabled={disableButton}
+                onClick={() => handleDelete("post", postId.id)}
+                variant="contained"
+              >
+                <DeleteOutlineIcon></DeleteOutlineIcon>
+                Удалить статью
+              </Button>
+            </div>
+          ) : (
+            ""
+          )}
+
+          <div className="comments">
+            <h2>Комментарии</h2>
+            {commentsData.length
+              ? commentsData.map((data) => {
+                  return (
+                    <Comment
+                      key={data._id}
+                      data={data}
+                      handleDelete={handleDelete}
+                    />
+                  );
+                })
+              : "Напиши комментарий! Будьте первыми :)"}
+
+            <br />
+            <br />
+            <br />
+            {stateToken ? (
+              <div className="frm-send">
+                <span>Добавить Комментарии</span>
+                <TextField
+                  id="outlined-multiline-static"
+                  multiline
+                  rows={4}
+                  sx={{ minWidth: 600 }}
+                  value={commentText}
+                  onChange={(e) => {
+                    setCommentText(e.target.value);
+                  }}
                 />
-              );
-            })
-          : "Напиши комментарий! Будьте первыми :)"}
-
-        <br />
-        <br />
-        <br />
-        <div className="frm-send">
-          <span>Добавить Комментарии</span>
-          <TextField
-            id="outlined-multiline-static"
-            multiline
-            rows={4}
-            sx={{ minWidth: 600 }}
-            value={commentText}
-            onChange={(e) => {
-              setCommentText(e.target.value);
-            }}
-          />
-          <br />
-          <Button
-            disabled={disableButton}
-            onClick={() => sendComment()}
-            className="btn-send"
-            variant="contained"
-          >
-            Отправить
-          </Button>
+                <br />
+                <Button
+                  disabled={disableButton}
+                  onClick={() => sendComment()}
+                  className="btn-send"
+                  variant="contained"
+                >
+                  Отправить
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </>
+      ) : (
+        <div className="progress-fullpost">
+          <CircularProgress />
         </div>
-      </div>
+      )}
     </div>
   );
 };
